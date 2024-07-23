@@ -1,0 +1,43 @@
+workflow:
+ rules:
+  - if: $CI_COMMIT_BRANCH 1= "main"
+    when: never
+  - when: always #se for diferente
+
+stages:
+- teste
+- build
+- deploy
+
+executar_teste:
+stage: teste
+ before_script:
+ - echo "preparando testes...."
+ - chmod +x ./scrpti.sh #permissão para o arquivo script
+ script:
+  - ./script.sh
+
+ after_script:
+ - echo "Apagando arquivos temporarios...."
+
+ executar_teste2:
+    stage: teste
+        script: 
+          - echo "Excutando teste 2...."
+
+criar_imagens:
+  stage: build
+    script: 
+        - echo "criando imagens...."
+
+push_imagens
+   needs:
+     criar_imagnes:
+        stage: build
+          script:
+             - echo "Realizando Upload das Imagens...."
+
+ kubernetes:
+    stage: deploy
+       script:
+          - echo "Executando Depoly...."

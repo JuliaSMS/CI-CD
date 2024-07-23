@@ -1,0 +1,2 @@
+only: 
+   - main #so pode ser executado na branch main
